@@ -2,10 +2,10 @@
 
 public class CameraControl : MonoBehaviour
 {
-    public float m_DampTime = 0.2f;                 
-    public float m_ScreenEdgeBuffer = 4f;           
+    public float m_DampTime = 0.2f;      // How long we want camera size to take roughly  
+    public float m_ScreenEdgeBuffer = 4f;           //A number that is added to the sides to make sure that the cameras aren't at the edge of the screen
     public float m_MinSize = 6.5f;                  
-    [HideInInspector] public Transform[] m_Targets; 
+    /*[HideInInspector]*/ public Transform[] m_Targets; //Gamemanager puts the tanks as targets
 
 
     private Camera m_Camera;                        
@@ -42,7 +42,7 @@ public class CameraControl : MonoBehaviour
 
         for (int i = 0; i < m_Targets.Length; i++)
         {
-            if (!m_Targets[i].gameObject.activeSelf)
+            if (!m_Targets[i].gameObject.activeSelf) //check if tanks are moving 
                 continue;
 
             averagePos += m_Targets[i].position;
@@ -53,8 +53,8 @@ public class CameraControl : MonoBehaviour
             averagePos /= numTargets;
 
         averagePos.y = transform.position.y;
-
-        m_DesiredPosition = averagePos;
+        // keep y value, up and down 
+        m_DesiredPosition = averagePos; // DesirePosition is used at Move function
     }
 
 
@@ -62,13 +62,14 @@ public class CameraControl : MonoBehaviour
     {
         float requiredSize = FindRequiredSize();
         m_Camera.orthographicSize = Mathf.SmoothDamp(m_Camera.orthographicSize, requiredSize, ref m_ZoomSpeed, m_DampTime);
+        //float SmoothDamp(float current, float target, ref float currentVelocity, float smoothTime, float maxSpeed = Mathf.Infinity, float deltaTime = Time.deltaTime);
     }
 
 
     private float FindRequiredSize()
     {
         Vector3 desiredLocalPos = transform.InverseTransformPoint(m_DesiredPosition);
-
+        // Find the position the camera rig is moving towards in its local space
         float size = 0f;
 
         for (int i = 0; i < m_Targets.Length; i++)
