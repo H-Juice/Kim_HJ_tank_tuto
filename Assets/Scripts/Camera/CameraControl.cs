@@ -5,7 +5,7 @@ public class CameraControl : MonoBehaviour
     public float m_DampTime = 0.2f;      // How long we want camera size to take roughly  
     public float m_ScreenEdgeBuffer = 4f;           //A number that is added to the sides to make sure that the cameras aren't at the edge of the screen
     public float m_MinSize = 6.5f;                  
-    /*[HideInInspector]*/ public Transform[] m_Targets; //Gamemanager puts the tanks as targets
+    [HideInInspector] public Transform[] m_Targets; //Gamemanager puts the tanks as targets
 
 
     private Camera m_Camera;                        
